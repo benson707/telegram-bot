@@ -29,6 +29,7 @@ BENSON x RAIJIN RENT botuna hoş geldin.
 
 /hesaplar
 /fiyat
+/odeme
 /destek
 /kurallar
 """
@@ -42,22 +43,22 @@ async def hesaplar(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         [
             InlineKeyboardButton(
-                "🎮 Hesap 1\n⏰ 4 Saat: 75 TL\n⏰ 24 Saat: 150 TL / 400⭐",
-                callback_data="hesap1"
+                "🎮 Hesap 1",
+                url="https://t.me/BENSONxRAIJIN/122"
             )
         ],
 
         [
             InlineKeyboardButton(
-                "🎮 Hesap 2\n⏰ 4 Saat: 75 TL\n⏰ 24 Saat: 150 TL / 400⭐",
-                callback_data="hesap2"
+                "🎮 Hesap 2",
+                url="https://t.me/BENSONxRAIJIN/126"
             )
         ],
 
         [
             InlineKeyboardButton(
-                "🎮 Hesap 3\n⏰ 4 Saat: 80 TL\n⏰ 24 Saat: 175 TL / 450⭐",
-                callback_data="hesap3"
+                "🎮 Hesap 3",
+                url="https://t.me/BENSONxRAIJIN/128"
             )
         ]
     ]
@@ -69,7 +70,65 @@ async def hesaplar(update: Update, context: ContextTypes.DEFAULT_TYPE):
         reply_markup=reply_markup
     )
 
-# Ödeme sistemi
+# /fiyat
+async def fiyat(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+    mesaj = """
+💰 Fiyat Listesi
+
+🎮 Hesap 1
+⏰ 4 Saat → 75 TL
+⏰ 24 Saat → 150 TL
+⭐ 24 Saat → 400 Stars
+
+🎮 Hesap 2
+⏰ 4 Saat → 75 TL
+⏰ 24 Saat → 150 TL
+⭐ 24 Saat → 400 Stars
+
+🎮 Hesap 3
+⏰ 4 Saat → 80 TL
+⏰ 24 Saat → 175 TL
+⭐ 24 Saat → 450 Stars
+"""
+
+    await update.message.reply_text(mesaj)
+
+# /odeme
+async def odeme(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+    keyboard = [
+
+        [
+            InlineKeyboardButton(
+                "🎮 Hesap 1",
+                callback_data="hesap1"
+            )
+        ],
+
+        [
+            InlineKeyboardButton(
+                "🎮 Hesap 2",
+                callback_data="hesap2"
+            )
+        ],
+
+        [
+            InlineKeyboardButton(
+                "🎮 Hesap 3",
+                callback_data="hesap3"
+            )
+        ]
+    ]
+
+    reply_markup = InlineKeyboardMarkup(keyboard)
+
+    await update.message.reply_text(
+        "💳 Ödeme yapmak istediğin hesabı seç:",
+        reply_markup=reply_markup
+    )
+
+# Buton sistemi
 async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     query = update.callback_query
@@ -82,15 +141,22 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
             [
                 InlineKeyboardButton(
-                    "⭐ Stars ile Öde",
-                    callback_data="star1"
+                    "⏰ 4 Saat - 75 TL",
+                    callback_data="iban1"
                 )
             ],
 
             [
                 InlineKeyboardButton(
-                    "💳 IBAN ile Öde",
+                    "⏰ 24 Saat - 150 TL",
                     callback_data="iban1"
+                )
+            ],
+
+            [
+                InlineKeyboardButton(
+                    "⭐ 24 Saat - 400 Stars",
+                    callback_data="star1"
                 )
             ]
         ]
@@ -109,15 +175,22 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
             [
                 InlineKeyboardButton(
-                    "⭐ Stars ile Öde",
-                    callback_data="star2"
+                    "⏰ 4 Saat - 75 TL",
+                    callback_data="iban2"
                 )
             ],
 
             [
                 InlineKeyboardButton(
-                    "💳 IBAN ile Öde",
+                    "⏰ 24 Saat - 150 TL",
                     callback_data="iban2"
+                )
+            ],
+
+            [
+                InlineKeyboardButton(
+                    "⭐ 24 Saat - 400 Stars",
+                    callback_data="star2"
                 )
             ]
         ]
@@ -136,15 +209,22 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
             [
                 InlineKeyboardButton(
-                    "⭐ Stars ile Öde",
-                    callback_data="star3"
+                    "⏰ 4 Saat - 80 TL",
+                    callback_data="iban3"
                 )
             ],
 
             [
                 InlineKeyboardButton(
-                    "💳 IBAN ile Öde",
+                    "⏰ 24 Saat - 175 TL",
                     callback_data="iban3"
+                )
+            ],
+
+            [
+                InlineKeyboardButton(
+                    "⭐ 24 Saat - 450 Stars",
+                    callback_data="star3"
                 )
             ]
         ]
@@ -156,8 +236,20 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             reply_markup=reply_markup
         )
 
-    # STARS ÖDEMELERİ
+    # IBAN
+    elif query.data.startswith("iban"):
 
+        await query.message.reply_text(
+            "💳 IBAN ile Ödeme\n\n"
+            "IBAN:\n"
+            "TR63 0086 9000 0000 0415 9635 09\n\n"
+            "👤 Alıcı:\n"
+            "Meryem Kırlar\n\n"
+            "📩 Dekont gönder:\n"
+            "@bensonhackk"
+        )
+
+    # STARS
     elif query.data == "star1":
 
         prices = [LabeledPrice("Hesap 1", 400)]
@@ -200,20 +292,6 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             prices=prices
         )
 
-    # IBAN ÖDEMELERİ
-
-    elif query.data.startswith("iban"):
-
-        await query.message.reply_text(
-            "💳 IBAN ile Ödeme\n\n"
-            "IBAN:\n"
-            "TR63 0086 9000 0000 0415 9635 09\n\n"
-            "Alıcı:\n"
-            "Meryem Kırlar\n\n"
-            "📩 Dekont gönder:\n"
-            "@bensonhackk"
-        )
-
 # Ödeme kontrolü
 async def precheckout_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
@@ -228,30 +306,6 @@ async def successful_payment(update: Update, context: ContextTypes.DEFAULT_TYPE)
         "🎉 Hesabınız aktif edildi.\n\n"
         "📩 Destek: @bensonhackk"
     )
-
-# /fiyat
-async def fiyat(update: Update, context: ContextTypes.DEFAULT_TYPE):
-
-    mesaj = """
-💰 Fiyat Listesi
-
-🎮 Hesap 1
-⏰ 4 Saat → 75 TL
-⏰ 24 Saat → 150 TL / 400⭐
-
-🎮 Hesap 2
-⏰ 4 Saat → 75 TL
-⏰ 24 Saat → 150 TL / 400⭐
-
-🎮 Hesap 3
-⏰ 4 Saat → 80 TL
-⏰ 24 Saat → 175 TL / 450⭐
-
-📩 Destek:
-@bensonhackk
-"""
-
-    await update.message.reply_text(mesaj)
 
 # /destek
 async def destek(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -286,6 +340,7 @@ app = ApplicationBuilder().token(TOKEN).build()
 app.add_handler(CommandHandler("start", start))
 app.add_handler(CommandHandler("hesaplar", hesaplar))
 app.add_handler(CommandHandler("fiyat", fiyat))
+app.add_handler(CommandHandler("odeme", odeme))
 app.add_handler(CommandHandler("destek", destek))
 app.add_handler(CommandHandler("kurallar", kurallar))
 
